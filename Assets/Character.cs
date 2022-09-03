@@ -10,11 +10,14 @@ public class Character : MonoBehaviour
     public float speed;
     [Header("Color")]
     [SerializeField] Material _mat;
-    CollectColors col;
-    void Start()
-    {
+    public CollectColors col;
+    void Awake(){
         int rand = Random.Range(1, 4);
         SetColor(rand);
+    }
+    void Start()
+    {
+        
         _direction = new Vector3(0, 0, 1);
     }
 
