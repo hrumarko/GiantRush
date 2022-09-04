@@ -11,6 +11,8 @@ public class Character : MonoBehaviour
     [Header("Color")]
     [SerializeField] Material _mat;
     public CollectColors col;
+    [Header("Score")]
+    [SerializeField]Score _score;
     void Awake(){
         int rand = Random.Range(1, 4);
         SetColor(rand);
@@ -33,6 +35,17 @@ public class Character : MonoBehaviour
             Ray pos = Camera.main.ScreenPointToRay(Input.mousePosition);
             float posX = pos.direction.x  * speed;
             transform.position = new Vector3(posX, this.transform.position.y, this.transform.position.z);
+            if(transform.position.x > 3.25f){
+                float y = this.transform.position.y;
+                float z = this.transform.position.z;
+                transform.position = new Vector3(3.25f, y, z);
+            }
+
+            if(transform.position.x < -3.25f){
+                float y = this.transform.position.y;
+                float z = this.transform.position.z;
+                transform.position = new Vector3(-3.25f, y, z);
+            }
         }
        
     }
@@ -44,9 +57,18 @@ public class Character : MonoBehaviour
             Destroy(other.gameObject);
             
             if(col == other.gameObject.GetComponent<CollectCharacter>()._color){
-                transform.localScale += new Vector3(0.1f, 0.1f, 0.1f);
+                if(Score.score <10)transform.localScale += new Vector3(0.1f, 0.1f, 0.1f);
+                _score.ScoreUp();
             }else{
-                transform.localScale -= new Vector3(0.1f, 0.1f, 0.1f);
+                if(Score.score >= 1){
+                    transform.localScale -= new Vector3(0.1f, 0.1f, 0.1f);
+                    _score.ScoreDown();
+                }
+                if(Score.score < 1){
+                    Time.timeScale = 0;
+                    Debug.Log("LOSE");
+                }
+                
             }
         }
     }
