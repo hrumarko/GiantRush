@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 public class Lose : MonoBehaviour
 {
     public GameObject diedCanvas;
-
+    public TextMeshProUGUI BasicScoreText;
 
     private void OnEnable()
     {
@@ -20,6 +21,7 @@ public class Lose : MonoBehaviour
     void Died(){
         Time.timeScale =0;
         diedCanvas.SetActive(true);
+        BasicScoreText.text = "Score:  " + Score.basicScore;
     }
 
     public void Restart(){

@@ -7,6 +7,11 @@ public class Character : MonoBehaviour
     [Header("Movement")]
     [SerializeField] Rigidbody _rb;
     Vector3 _direction;
+
+    int a = 0;
+    Ray pos0;
+    Vector3 goPos1;
+
     public float speed;
     [Header("Color")]
     [SerializeField] Material _mat;
@@ -31,12 +36,29 @@ public class Character : MonoBehaviour
         _rb.velocity = _direction * speed;
     }
 
-    public void SideMoving(){
+    
+
+    public void SideMoving(){        
         if(Input.GetMouseButton(0)){
-            Ray pos = Camera.main.ScreenPointToRay(Input.mousePosition);
-            float posX = pos.direction.x  * speed;
-            transform.position = new Vector3(posX, this.transform.position.y, this.transform.position.z);
-            if(transform.position.x > 3.25f){
+            if(a == 0){
+                a =1;
+                pos0 =  Camera.main.ScreenPointToRay(Input.mousePosition);
+                goPos1 = this.transform.position;
+            }
+            
+            Ray pos1 = Camera.main.ScreenPointToRay(Input.mousePosition);
+            float posX = pos1.direction.x - pos0.direction.x;
+            
+            transform.position = new Vector3(goPos1.x + (posX*speed), this.transform.position.y, this.transform.position.z);
+        }
+        if(Input.GetMouseButtonUp(0)){
+            a=0;
+        }
+        BoundsMovement();
+            
+    }
+    void BoundsMovement(){
+        if(transform.position.x > 3.25f){
                 float y = this.transform.position.y;
                 float z = this.transform.position.z;
                 transform.position = new Vector3(3.25f, y, z);
@@ -47,8 +69,6 @@ public class Character : MonoBehaviour
                 float z = this.transform.position.z;
                 transform.position = new Vector3(-3.25f, y, z);
             }
-        }
-       
     }
     
     private void OnCollisionEnter(Collision other)
@@ -58,6 +78,7 @@ public class Character : MonoBehaviour
             Destroy(other.gameObject);
             
             if(col == other.gameObject.GetComponent<CollectCharacter>()._color){
+                Score.basicScore++;
                 if(Score.score <10)transform.localScale += new Vector3(0.1f, 0.1f, 0.1f);
                 _score.ScoreUp();
             }else{
