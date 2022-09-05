@@ -60,11 +60,13 @@ public class Character : MonoBehaviour
                 if(Score.score <10)transform.localScale += new Vector3(0.1f, 0.1f, 0.1f);
                 _score.ScoreUp();
             }else{
-                if(Score.score >= 1){
-                    transform.localScale -= new Vector3(0.1f, 0.1f, 0.1f);
+                if(Score.score >= 0 ){
+                    if(Score.score <11){
+                        transform.localScale -= new Vector3(0.1f, 0.1f, 0.1f);
+                    }                    
                     _score.ScoreDown();
                 }
-                if(Score.score < 1){
+                if(Score.score < 0){
                     Time.timeScale = 0;
                     Debug.Log("LOSE");
                 }
@@ -81,5 +83,28 @@ public class Character : MonoBehaviour
             case 4: _mat.color = Color.yellow; break;
         }
         col = (CollectColors)num;
+    }
+
+    public void SetColor(string color){
+        switch(color){
+            case "Red": 
+                _mat.color = Color.red;
+                col = CollectColors.Red;
+            break;
+            case "Blue":
+                _mat.color = Color.blue;
+                col = CollectColors.Blue; 
+             break;
+            case "Green":
+                _mat.color = Color.green;
+                col = CollectColors.Green; 
+             break;
+            case "Yellow":
+                _mat.color = Color.yellow;
+                col = CollectColors.Yellow; 
+             break;
+        }
+
+        
     }
 }

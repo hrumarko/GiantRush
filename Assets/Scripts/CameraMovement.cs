@@ -13,7 +13,7 @@ public class CameraMovement : MonoBehaviour
         y = this.transform.position.y;
     }
     void Update(){
-        z = character.transform.position.z -10; 
+        z = character.transform.position.z -15; 
         transform.position = new Vector3(x, y, z);
     }
 }
