@@ -13,6 +13,7 @@ public class Character : MonoBehaviour
     public CollectColors col;
     [Header("Score")]
     [SerializeField]Score _score;
+    public static System.Action died;
     void Awake(){
         int rand = Random.Range(1, 4);
         SetColor(rand);
@@ -67,8 +68,7 @@ public class Character : MonoBehaviour
                     _score.ScoreDown();
                 }
                 if(Score.score < 0){
-                    Time.timeScale = 0;
-                    Debug.Log("LOSE");
+                    died?.Invoke();
                 }
                 
             }
